@@ -18,8 +18,9 @@ wss.on("connection", (ws) => {
   ws.on("message", (msg) => {
     console.log("Received:", msg.toString());
 
+    // FIXED: broadcast to ALL clients (including sender)
     wss.clients.forEach((client) => {
-      if (client !== ws && client.readyState === WebSocket.OPEN) {
+      if (client.readyState === WebSocket.OPEN) {
         client.send(msg.toString());
       }
     });
